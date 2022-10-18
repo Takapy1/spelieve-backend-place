@@ -19,6 +19,7 @@ import { MPlace } from 'spelieve-common/lib/Models/Place/PDB01/MPlace';
 
 import { PBL002UpsertPlaceDataServiceRule } from './PBL002UpsertPlaceData.rule';
 
+// REVIEW: 普通にアーキテクチャの知識不足なんだけど、serviceとcontrollerって役割の違いは何？
 @Injectable()
 export class PBL002UpsertPlaceDataService {
   constructor(private readonly httpService: HttpService) {}
@@ -47,6 +48,7 @@ export class PBL002UpsertPlaceDataService {
     });
     const googlePlaceDetailsResult = googlePlaceDetailsResponse.result;
 
+    // REVIEW: Photoはどこかで使うのかな?どこで使う想定?
     // Google Place Photo Urls を取得する
     const photoUrls: string[] = await Promise.all(
       googlePlaceDetailsResult.photos
@@ -125,6 +127,7 @@ export class PBL002UpsertPlaceDataService {
 
     // PDB01MPlace に更新を行う
     if (rule.needToUpdate()) {
+      // REVIEW: "as"しなくても"placeDocumentSnap.ref.set()"出来なかったっけ？
       await (placeDocumentSnap as QueryDocumentSnapshot).ref.set(mPlace);
     }
 
